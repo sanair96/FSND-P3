@@ -9,11 +9,14 @@ import hmac
 from string import letters
 from user import User
 from comment import Comment
+from handler import Handler
 SECRET = 'imsosecret'
 from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=True)
+
+#Code follows logic of how a user interacts with the blog, Starting from register upto deleting a comment
 
 class Handler(webapp2.RequestHandler):
 	def write(self, *a, **kw):
@@ -90,11 +93,13 @@ def valid_email(email):
 	return not email or EMAIL_RE.match(email)
 
 
-
+# Page loaded when url typed 
 class FirstPage(Handler):
     def get(self):
         self.render("firstpage.html")
 
+
+# Manages Sign up
 class Signup(Handler):
     def get(self):
         self.render("signup.html");
@@ -132,6 +137,8 @@ class Signup(Handler):
     def done(self, *a,**kw):
         raise NotImplementedError
 
+
+# registers user to the databasae
 class Register(Signup):
     def done(self):
         u = User.by_name(self.name)
@@ -146,13 +153,8 @@ class Register(Signup):
             self.login(u)
             self.redirect('/blog/Welcome')
 
-class Welcome(Handler):
-	def get(self):
-        	if self.user:
-			self.render("welcome.html", username=self.user.name)
-		else:
-			self.redirect('/signup')
 
+# Login Function
 class Login(Handler):
     def get(self):
         self.render('login.html')
@@ -169,19 +171,30 @@ class Login(Handler):
         else:
             msg = 'Invalid Username or Password'
             self.render('login.html',error = msg, name = username)
-            
 
+# after Logging in
+class Welcome(Handler):
+	def get(self):
+        	if self.user:
+			self.render("welcome.html", username=self.user.name)
+		else:
+			self.redirect('/signup')
+
+            
+# For Logout
 class Logout(Handler):
     def get(self):
         self.logout()
         self.redirect('/login')
 
 
-
+# to rener the posts in the page
 def render_post(response, post):
     response.out.write('<b>'+post.subject+'<br><br>')
     response.out.write(post.content)
 
+
+#to load the blog page
 class Blog(Handler):
 	def render_blog(self):
 		posts = db.GqlQuery("SELECT * FROM Post ORDER BY created DESC LIMIT 20")
@@ -190,6 +203,8 @@ class Blog(Handler):
 
 	def get(self):
 		self.render_blog()
+
+#to poost a new blog
 
 class PostSub(Handler):
     def get(self,post_id):
