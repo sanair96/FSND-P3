@@ -1,0 +1,12 @@
+<div class="blogposts">
+	<div class="post_heading">
+		<h2>
+			{{ p.subject }}
+		<small>	{{ p.created.strftime("%b %d, %Y") }}</small>
+		</h2>
+	</div>
+
+	<div class="post_content container">
+		{{ p._render_text | safe }}
+	</div>
+</div>

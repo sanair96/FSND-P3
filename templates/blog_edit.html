@@ -1,0 +1,18 @@
+{% extends "blog_base.html" %}
+
+{% block content %}
+	<h1>Edit Post</h1>
+		<a href="/blog">Click to Undo changes</a>
+		<form method="post">
+					<div class="form-group">
+						<label for="subject">Subject</label>
+						<input class="form-control" type="text" id="subject" name="subject" value="{{ subject }}" class="subj">
+					</div>
+					<div class="form-group">
+						<label for="post">Post</label>
+						<textarea name="content" id="post" class="form-control" rows=3>{{content}}</textarea>
+					</div>
+			<div class="error btn-danger">{{error}}</div>
+			<input type="submit" class="btn btn-default">
+		</form>
+{% endblock %}

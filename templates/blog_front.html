@@ -1,0 +1,68 @@
+{% extends "blog_base.html" %}
+
+{% block content %}
+	<div align="center" class=" btn-success">
+		{{ message }}
+	</div>
+	<div align="center" class="btn-danger">{{ error }}</div>
+	{% for p in posts %}
+		{{ p.render() | safe }}
+		<div class="post_footer">
+		<h5>Author :- {{ p.author }}</h5>
+		<br>
+				<form action="/blog/edit/{{p.key().id()}}" class="edit_btn">
+					<input type="submit" class="btn btn-default" value="Edit Post">
+				</form>
+				<form method="get" class="delete_btn" action="/blog/delete/{{p.key().id()}}">
+					<input type="submit" class="btn btn-danger" value="Delete Post">
+				</form>
+				<br><br>
+
+		{% if p.likes == 1 %}
+			{{ p.likes }} user likes the post
+		{% else %}
+			{{ p.likes }} users like the post
+		{% endif %}
+		<br>
+		<br>
+
+			<form method="get" action="/blog/newcomment/{{p.key().id()}}" class="edit_btn">
+				<input type="submit" class="btn btn-default" value="Comment on Post">
+			</form>
+		<br><br>
+
+				{% if user.name not in p.likers %}
+						<form method="post" action="/blog/like/{{p.key().id()}}" class="delete_btn">
+							<input type="submit" class="btn btn-default" value="Like" name="ulike">
+						</form>
+				{% endif %}
+
+			<br>
+			<div class="post_comment">
+				{% for c in comments %}
+					{% if c.commentid == p.key().id() %}
+						<div class="comment">
+							<br>
+							<h5 class="comment_content">
+								{{ c.comment | safe }}
+							<small>
+								by {{ c.commentauthor }} on {{ c.created.strftime("%b %d, %Y") }}
+							</small>
+							</h5>
+							<br><br>
+									<form method="get" action="/blog/editcomment/{{c.key().id()}}">
+										<input type="submit" value="Edit comment" class="btn btn-default">
+									</form>
+									<form method="get" action="/blog/deletecomment/{{c.key().id()}}">
+										<input type="submit" value="Delete Comment" class="btn btn-danger">
+									</form>
+							<br><br>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		<br><br>
+	{% endfor %}
+
+{% endblock %}

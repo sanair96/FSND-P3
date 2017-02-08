@@ -1,0 +1,20 @@
+.heading{
+	display: inline-block;
+}
+.left{
+	float: left;
+}
+h1{
+	font-size: 30px;
+}
+.row{
+	display: inline-block;
+}
+.undec{
+	text-decoration: none;
+}
+.flex{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+}

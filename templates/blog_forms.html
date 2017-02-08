@@ -1,0 +1,23 @@
+{% extends "blog_base.html" %}
+
+{% block content %}
+	<div class="newpost text-center flex">
+		<div class="col-md-9">
+		<h1>New Post</h1>
+			<form method="post">
+					
+					<div class="form-group">
+						<label for="subject">Subject</label>
+						<input class="form-control" type="text" id="subject" name="subject" value="{{ subject }}" class="subj">
+					</div>
+					<div class="form-group">
+						<label for="post">Post</label>
+						<textarea name="content" id="post" class="form-control" rows=3>{{content}}</textarea>
+					</div>
+				<div class="error btn-danger">{{error}}</div>
+
+				<input class="btn btn-default" type="submit" value="Submit Post">
+			</form>
+		</div>
+	</div>
+{% endblock %}

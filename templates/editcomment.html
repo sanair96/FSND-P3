@@ -1,0 +1,15 @@
+{% extends "blog_base.html" %}
+
+{% block content %}
+<h2><small>Comment Box</small></h2>
+	To abort Editing, click <a class="btn btn-danger" href="/blog">HERE</a>
+	<br><br>
+	<form method="post">
+	<div class="form-group">
+		<label>Comment</label>
+		<textarea name="comment" rows="3" value="">{{ comment }}</textarea>
+	</div>
+		<div class="error">{{error}}</div>
+		<input type="submit" class="btn btn-primary" value="Submit comment">
+	</form>
+{% endblock %}
