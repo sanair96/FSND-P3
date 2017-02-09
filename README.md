@@ -1,5 +1,5 @@
 # FSND-P3
-Project 3
+#### A Basic Multiuser Blog that allows Signup, Posting, liking and commenting
 
 
 1. Install Google App Engine onto your PC.
